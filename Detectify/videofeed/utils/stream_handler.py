@@ -41,7 +41,7 @@ def capture_and_analyze_stream(rtsp_url):
         frame_counter += 1
 
         # Process every tenth frame
-        if frame_counter % 10 == 0:
+        if frame_counter % 300 == 0:
             frame_counter = 0
             # Preprocess frame for model
             img = cv2.resize(frame, (224, 224))
@@ -56,12 +56,12 @@ def capture_and_analyze_stream(rtsp_url):
             # Check if recognized object is in the defined list
             recognized_objects = ['tabby', 'cat', 'dog', 'person', 'gun', 'knife', 'can', 'bottle']
             for _, label, _ in decoded_preds:
+                detected_label = label
                 if label in recognized_objects:
                     current_time = datetime.now()
                     if label not in last_detection_time or current_time - last_detection_time[label] > timedelta(seconds=DETECTION_COOLDOWN):
                         print("Recognized object:", label)
                         match_found = True
-                        detected_label = label
                         last_detection_time[label] = current_time
                         # Save snapshot and metadata
                         _, buffer = cv2.imencode('.jpg', frame)
