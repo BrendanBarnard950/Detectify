@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detectify</title>
+</head>
+<body>
+    <h1>Welcome Detectify</h1>
+    <a href="{% url 'toggle_processing_mode' %}">Toggle Processing Mode</a>
+    <form action="{% url 'live_feed_page' %}" method="get" style="display:inline;">
+        <button type="submit">Go to Live Feed</button>
+    </form>
+</body>
+</html>

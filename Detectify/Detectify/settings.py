@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -125,3 +126,20 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AWS_STORAGE_BUCKET_NAME = ""
+AWS_ACCESS_KEY_ID = ""
+AWS_SECRET_ACCESS_KEY = ""
+AWS_REGION = ""
+AWS_ENDPOINT_URL = ""
+
+STREAM_URL = ""
+
+# Default the S3 detection upload cooldown to one minute
+DETECTION_COOLDOWN = 60
+
+# Set TensorFlow logging level
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
+
+from Detectify.settings_local import *

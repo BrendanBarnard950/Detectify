@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Feed</title>
+    <style>
+        .indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: red;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .indicator.match {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <img id="video-stream" src="{% url 'live_feed_stream' %}" alt="Live Feed">
+        <div id="indicator" class="indicator"></div>
+        <label id="match">Initial unknown</label>
+    </div>
+    <script>
+        console.log('Live Feed Page');
+        const indicator = document.getElementById('indicator');
+        const label = document.getElementById('match');
+        const labelSource = new EventSource("{% url 'live_feed_label' %}");
+
+        labelSource.onmessage = function(event) {
+            console.log('Message Received:', event.data);
+            if (event.data) {
+                indicator.classList.add('match');
+                label.innerText = `Match Found: ${event.data}`;
+                setTimeout(() => {
+                    indicator.classList.remove('match');
+                }, 1000);
+            }
+        };
+
+        labelSource.onerror = function(event) {
+            console.error('EventSource failed:', event);
+        };
+    </script>
+</body>
+</html>
