@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Feed</title>
     <style>
         .indicator {
@@ -21,7 +19,7 @@
 </head>
 <body>
     <div>
-        <img id="video-stream" src="{% url 'live_feed_stream' %}" alt="Live Feed">
+        <img id="video-stream" src="{% url 'live_feed_stream' %}" alt="Live Feed"><br>
         <div id="indicator" class="indicator"></div>
         <label id="match">Initial unknown</label>
     </div>
@@ -34,13 +32,16 @@
         labelSource.onmessage = function(event) {
             console.log('Message Received:', event.data);
             if (event.data) {
+                if (event.data === 'Unknown') {
+                    indicator.classList.remove('match');
+                    label.innerText = `Initial unknown`;
+                } else {
                 indicator.classList.add('match');
                 label.innerText = `Match Found: ${event.data}`;
-                setTimeout(() => {
-                    indicator.classList.remove('match');
-                }, 1000);
+                
             }
-        };
+        }
+    };
 
         labelSource.onerror = function(event) {
             console.error('EventSource failed:', event);
